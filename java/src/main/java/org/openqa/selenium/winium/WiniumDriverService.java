@@ -3,12 +3,15 @@ package org.openqa.selenium.winium;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.Beta;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.net.PortProber;
 import org.openqa.selenium.remote.service.DriverService;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
+import java.util.List;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -109,9 +112,9 @@ public class WiniumDriverService extends DriverService {
         return new Builder().usingAnyFreePort().buildStoreAppsService();
     }
 
-    protected WiniumDriverService(File executable, int port, ImmutableList<String> args,
-                                  ImmutableMap<String, String> environment) throws IOException {
-        super(executable, port, args, environment);
+    protected WiniumDriverService(File executable, int port, List<String> args, Duration timeout,
+                                  Map<String, String> environment) throws IOException {
+        super(executable, port, timeout, args, environment);
     }
 
     public static class Builder extends DriverService.Builder<WiniumDriverService, WiniumDriverService.Builder> {
@@ -134,6 +137,11 @@ public class WiniumDriverService extends DriverService {
         private File exe = null;
         private boolean verbose = Boolean.getBoolean(WINIUM_DRIVER_VERBOSE_LOG);
         private boolean silent = Boolean.getBoolean(WINIUM_DRIVER_SILENT);
+
+        @Override
+        public int score(Capabilities capabilities) {
+            return 0;
+        }
 
         /**
          * Sets which driver executable the builder will use.
@@ -188,7 +196,7 @@ public class WiniumDriverService extends DriverService {
             }
 
             try {
-                return new WiniumDriverService(exe, port, createArgs(), ImmutableMap.<String, String>of());
+                return new WiniumDriverService(exe, port, createArgs(), Duration.ofSeconds(3), Map.of());
             } catch (IOException e) {
                 throw new WebDriverException(e);
             }
@@ -211,7 +219,7 @@ public class WiniumDriverService extends DriverService {
             }
 
             try {
-                return new WiniumDriverService(exe, port, createArgs(), ImmutableMap.<String, String>of());
+                return new WiniumDriverService(exe, port, createArgs(), Duration.ofSeconds(3), Map.of());
             } catch (IOException e) {
                 throw new WebDriverException(e);
             }
@@ -234,7 +242,7 @@ public class WiniumDriverService extends DriverService {
             }
 
             try {
-                return new WiniumDriverService(exe, port, createArgs(), ImmutableMap.<String, String>of());
+                return new WiniumDriverService(exe, port, createArgs(), Duration.ofSeconds(3), Map.of());
             } catch (IOException e) {
                 throw new WebDriverException(e);
             }
@@ -269,10 +277,9 @@ public class WiniumDriverService extends DriverService {
         }
 
         @Override
-        protected WiniumDriverService createDriverService(File exe, int port, ImmutableList<String> args,
-                                                          ImmutableMap<String, String> environment) {
+        protected WiniumDriverService createDriverService(File exe, int port, Duration timeout, List<String> args, Map<String, String> environment) {
             try {
-                return new WiniumDriverService(exe, port, args, environment);
+                return new WiniumDriverService(exe, port, args, timeout, environment);
             } catch (IOException e) {
                 throw new WebDriverException(e);
             }
