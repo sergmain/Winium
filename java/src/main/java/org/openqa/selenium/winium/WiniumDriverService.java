@@ -112,9 +112,9 @@ public class WiniumDriverService extends DriverService {
         return new Builder().usingAnyFreePort().buildStoreAppsService();
     }
 
-    protected WiniumDriverService(File executable, int port, List<String> args, Duration timeout,
-                                  Map<String, String> environment) throws IOException {
-        super(executable, port, timeout, args, environment);
+    protected WiniumDriverService(File executable, int port, ImmutableList<String> args,
+                                  ImmutableMap<String, String> environment) throws IOException {
+        super(executable, port, args, environment);
     }
 
     public static class Builder extends DriverService.Builder<WiniumDriverService, WiniumDriverService.Builder> {
@@ -196,7 +196,7 @@ public class WiniumDriverService extends DriverService {
             }
 
             try {
-                return new WiniumDriverService(exe, port, createArgs(), Duration.ofSeconds(3), Map.of());
+                return new WiniumDriverService(exe, port, createArgs(), ImmutableMap.<String, String>of());
             } catch (IOException e) {
                 throw new WebDriverException(e);
             }
@@ -219,7 +219,7 @@ public class WiniumDriverService extends DriverService {
             }
 
             try {
-                return new WiniumDriverService(exe, port, createArgs(), Duration.ofSeconds(3), Map.of());
+                return new WiniumDriverService(exe, port, createArgs(), ImmutableMap.<String, String>of());
             } catch (IOException e) {
                 throw new WebDriverException(e);
             }
@@ -242,7 +242,7 @@ public class WiniumDriverService extends DriverService {
             }
 
             try {
-                return new WiniumDriverService(exe, port, createArgs(), Duration.ofSeconds(3), Map.of());
+                return new WiniumDriverService(exe, port, createArgs(), ImmutableMap.<String, String>of());
             } catch (IOException e) {
                 throw new WebDriverException(e);
             }
@@ -277,9 +277,9 @@ public class WiniumDriverService extends DriverService {
         }
 
         @Override
-        protected WiniumDriverService createDriverService(File exe, int port, Duration timeout, List<String> args, Map<String, String> environment) {
+        protected WiniumDriverService createDriverService(File exe, int port, ImmutableList<String> args, ImmutableMap<String, String> environment) {
             try {
-                return new WiniumDriverService(exe, port, args, timeout, environment);
+                return new WiniumDriverService(exe, port, args, environment);
             } catch (IOException e) {
                 throw new WebDriverException(e);
             }

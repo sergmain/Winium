@@ -6,7 +6,7 @@
 
     <groupId>com.github.2gis.winium</groupId>
     <artifactId>winium-webdriver</artifactId>
-    <version>0.1.0-2</version>
+    <version>0.1.4</version>
 
     <name>Winium.WebDriver</name>
     <url>https://github.com/2gis/Winium/tree/master/java</url>
@@ -43,7 +43,7 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>4.4.0</version>
+            <version>3.141.59</version>
         </dependency>
     </dependencies>
 
